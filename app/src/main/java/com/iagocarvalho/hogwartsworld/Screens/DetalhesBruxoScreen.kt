@@ -3,16 +3,21 @@ package com.iagocarvalho.hogwartsworld.Screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 
-@Preview
+
 @Composable
 fun TodosOsDetalhesScreen(
     actor: String = "Daniel",
@@ -27,8 +32,8 @@ fun TodosOsDetalhesScreen(
     name: String = "harry",
     patronus: String = "corvo",
     species: String = "humano",
-
-    yearOfBirth: Int = 1
+    yearOfBirth: Int = 1,
+    navController: NavController
 ) {
     Card() {
         Column() {
@@ -49,6 +54,9 @@ fun TodosOsDetalhesScreen(
             Text(text = house)
             Text(text = patronus)
             Text(text = species)
+            IconButton(onClick = { navController.navigateUp() }) {
+                Icon(Icons.Default.ArrowBack, contentDescription = "Voltar")
+            }
         }
     }
 }

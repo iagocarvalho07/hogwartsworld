@@ -1,8 +1,6 @@
 package com.iagocarvalho.hogwartsworld
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iagocarvalho.hogwartsworld.data.hogwarstRepository
@@ -19,6 +17,9 @@ class HogwartsViewModel: ViewModel() {
     private val _hogwarts = MutableStateFlow<List<PersonagensDehogwartsItem>>(emptyList())
     val hogwarts: StateFlow<List<PersonagensDehogwartsItem>> = _hogwarts.asStateFlow()
 
+    private val _loaded = MutableStateFlow(false)
+    val loaded: StateFlow<Boolean> = _loaded.asStateFlow()
+
     // segunda opção utlizando LiveData
     //private val _hogwarts = MutableLiveData<List<PersonagensDehogwartsItem>>()
     //val hogwarts: LiveData<List<PersonagensDehogwartsItem>> = _hogwarts
@@ -30,6 +31,8 @@ class HogwartsViewModel: ViewModel() {
                 _hogwarts.value = person
             }catch (e: Exception){
                 Log.d("Exc", "getHogwartsView: ${e} ")
+            } finally {
+                _loaded.emit(true)
             }
         }
     }

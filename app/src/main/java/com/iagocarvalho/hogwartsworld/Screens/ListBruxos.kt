@@ -18,15 +18,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 
-@Preview(showBackground = true)
-@Composable
-fun ListBruxos(Image: String = "", Bruxo: String ="Bruxo", Casa: String = "Casa do bruxo") {
 
-    Card(modifier = Modifier.padding(2.dp),
+@Composable
+fun ListBruxos(
+    Image: String = "",
+    Bruxo: String = "Bruxo",
+    Casa: String = "Casa do bruxo",
+    navController: NavController
+) {
+    Card(
+        modifier = Modifier.padding(2.dp),
         shape = CircleShape,
         elevation = CardDefaults.cardElevation(10.dp),
         border = BorderStroke(1.dp, color = Color.DarkGray)
@@ -48,11 +53,15 @@ fun ListBruxos(Image: String = "", Bruxo: String ="Bruxo", Casa: String = "Casa 
             )
             Column() {
                 Text(
-                    text = Bruxo, )
+                    text = Bruxo,
+                )
                 Text(text = Casa)
 
             }
-            Button(onClick = { /*TODO*/ }, modifier = Modifier){
+            Button(
+                onClick = { navController.navigate(route = Screens.Detalhes.route) },
+                modifier = Modifier
+            ) {
                 Text(text = "Detalhes")
 
             }

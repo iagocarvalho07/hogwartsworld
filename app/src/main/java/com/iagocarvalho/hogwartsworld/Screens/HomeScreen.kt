@@ -1,35 +1,46 @@
 package com.iagocarvalho.hogwartsworld.Screens
 
-import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import com.iagocarvalho.hogwartsworld.HogwartsViewModel
 
 @Composable
-fun HogwartsScreen(viewModel: HogwartsViewModel) {
+fun HogwartsScreen(viewModel: HogwartsViewModel, navController: NavController) {
 
-    val personagensDehogwartsItems by viewModel.hogwarts.collectAsState()
+    val personagensDehogwartsItems by viewModel.hogwarts.collectAsState(emptyList())
+    val loaded by viewModel.loaded.collectAsState(false)
 
     LaunchedEffect(Unit) {
         viewModel.getHogwartsView()
     }
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally) {
 
-    Column() {
-        if (personagensDehogwartsItems.isEmpty()) {
-            Text(text = "Loading...")
+        if (!loaded) {
+            CircularProgressIndicator()
         } else {
             LazyColumn {
-                items(personagensDehogwartsItems) { personagensDehogwartsItem ->
+                items(personagensDehogwartsItems, key = {personagensDehogwartsItem -> personagensDehogwartsItem.id})
+                { personagensDehogwartsItem ->
                     ListBruxos(
                         Image = personagensDehogwartsItem.image,
                         Bruxo = personagensDehogwartsItem.name,
-                        Casa = personagensDehogwartsItem.house
+                        Casa = personagensDehogwartsItem.house,
+                        navController = navController
                     )
                     //AsyncImage(model = personagensDehogwartsItem.image, contentDescription = "")
                     //Text(text = personagensDehogwartsItem.actor)
