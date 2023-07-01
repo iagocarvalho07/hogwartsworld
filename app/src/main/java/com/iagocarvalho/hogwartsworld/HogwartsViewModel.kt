@@ -10,12 +10,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+
 class HogwartsViewModel: ViewModel() {
     private val repository = hogwarstRepository()
 
     // Codigo com StateFlow
-    private val _hogwarts = MutableStateFlow<List<PersonagensDehogwartsItem>>(emptyList())
-    val hogwarts: StateFlow<List<PersonagensDehogwartsItem>> = _hogwarts.asStateFlow()
+    private val _hogwarts = MutableStateFlow<List<PersonagensDehogwartsItem>?>(null)
+    val hogwarts: StateFlow<List<PersonagensDehogwartsItem>?> = _hogwarts.asStateFlow()
 
     private val _loaded = MutableStateFlow(false)
     val loaded: StateFlow<Boolean> = _loaded.asStateFlow()
@@ -28,11 +29,11 @@ class HogwartsViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 val person = repository.gethogwarts()
-                _hogwarts.value = person
+                if (person.isNotEmpty()) {
+                    _hogwarts.value = person
+                }
             }catch (e: Exception){
                 Log.d("Exc", "getHogwartsView: ${e} ")
-            } finally {
-                _loaded.emit(true)
             }
         }
     }

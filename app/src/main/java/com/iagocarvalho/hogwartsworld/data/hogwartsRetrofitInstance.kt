@@ -5,8 +5,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-object HogwartsRetrofitInstance {
-    private val  BASE_URL = "https://hp-api.onrender.com/api/"
+object hogwartsRetrofitInstance {
+    private const val  BASE_URL = "https://hp-api.onrender.com/api/"
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
